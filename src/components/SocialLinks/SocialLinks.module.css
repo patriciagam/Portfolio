@@ -1,0 +1,43 @@
+.social {
+  display: flex;
+  gap: 8px;
+  padding: 6px 5px;
+  list-style: none;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.social a {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  /* Containers can recolour the icons by setting --social-color. */
+  color: var(--social-color, var(--color-text));
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.social a:hover,
+.social a:focus-visible {
+  background: var(--color-periwinkle);
+  color: #000000;
+}
+
+.social a:focus-visible {
+  outline: 2px solid var(--color-lavender);
+  outline-offset: 2px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
