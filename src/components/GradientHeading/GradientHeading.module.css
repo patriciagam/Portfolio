@@ -1,0 +1,24 @@
+/* Same purple gradient and glow as "clarity" on the landing page. The width
+   hugs the text so the gradient runs across the words, not the whole row. */
+.heading {
+  width: fit-content;
+  margin: 0 auto;
+  /* 179.5px in the 1024px-tall Figma frame; shrinks on shorter screens so
+     single-viewport pages still fit. */
+  padding-top: clamp(110px, 17.5svh, 179.5px);
+  /* Room for descenders ("y" in "my") inside the gradient's box, without
+     moving the content below. */
+  padding-bottom: 0.15em;
+  margin-bottom: -0.15em;
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background: var(--gradient-purple);
+  background-origin: content-box;
+  background-clip: text;
+  -webkit-background-clip: text;
+  filter: var(--glow-purple);
+}

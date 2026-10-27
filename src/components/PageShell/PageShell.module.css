@@ -1,0 +1,142 @@
+/* `clip` rather than `hidden` so descendants can still use position: sticky. */
+.shell {
+  min-height: calc(100svh - var(--footer-height));
+  overflow: clip;
+  background: var(--color-bg);
+  transition: background-color 0.3s;
+}
+
+.radial {
+  background: radial-gradient(
+    ellipse 50% 50% at 50% 50%,
+    var(--color-bg-glow) 0%,
+    var(--color-bg-deep) 100%
+  );
+}
+
+.fit {
+  height: calc(100svh - var(--footer-height));
+  min-height: 0;
+}
+
+.fill {
+  display: flex;
+  flex-direction: column;
+}
+
+.fill .frame {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+}
+
+.fill .content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.fit .frame {
+  height: 100%;
+  min-height: 0;
+}
+
+.fit .content {
+  height: 100%;
+}
+
+.frame {
+  position: relative;
+  max-width: var(--frame-width);
+  min-height: var(--frame-height);
+  margin: 0 auto;
+}
+
+.content {
+  position: relative;
+}
+
+/* The SVGs include 100px of blur padding on each side, so each image sits
+   100px up and left of its Figma ellipse node. */
+.ellipseTop,
+.ellipseBottom,
+.glowTop,
+.glowBottom {
+  position: absolute;
+  pointer-events: none;
+}
+
+.section .ellipseTop {
+  left: -243px;
+  top: -196px;
+}
+
+.section .ellipseBottom {
+  left: 1108px;
+  top: 478px;
+}
+
+.landing .ellipseTop {
+  left: -318px;
+  top: -216px;
+}
+
+.landing .ellipseBottom {
+  left: 1148px;
+  top: 419px;
+}
+
+/* Light-mode glows from index-patricia.html, placed on the Figma ellipses. */
+.glowTop,
+.glowBottom {
+  border-radius: 50%;
+  filter: blur(100px);
+}
+
+.glowTop {
+  width: 556px;
+  height: 545px;
+  opacity: var(--glow-a-opacity);
+  background: radial-gradient(circle, var(--glow-a) 0%, var(--glow-a-end) 100%);
+}
+
+.glowBottom {
+  width: 380px;
+  height: 380px;
+  opacity: var(--glow-b-opacity);
+  background: radial-gradient(circle, var(--glow-b) 0%, rgba(93, 0, 216, 0.52) 100%);
+}
+
+.section .glowTop {
+  left: -143px;
+  top: -96px;
+}
+
+.section .glowBottom {
+  left: 1208px;
+  top: 578px;
+}
+
+.landing .glowTop {
+  left: -218px;
+  top: -116px;
+}
+
+.landing .glowBottom {
+  left: 1248px;
+  top: 519px;
+}
+
+.lightOnly {
+  display: none;
+}
+
+:global(:root[data-mode="light"]) .lightOnly {
+  display: block;
+}
+
+:global(:root[data-mode="light"]) .darkOnly {
+  display: none;
+}
