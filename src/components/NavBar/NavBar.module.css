@@ -1,0 +1,60 @@
+.navBar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 10;
+  height: var(--nav-height);
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+}
+
+.translucent {
+  background: var(--nav-bg-translucent);
+}
+
+.progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: rgb(138, 56, 245);
+  transform-origin: left;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 62px;
+  max-width: var(--frame-width);
+  height: 100%;
+  margin: 0 auto;
+  padding-right: 37px;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: 70px;
+  list-style: none;
+}
+
+/* Default variant: muted. Variant2 (hover / current page): full text colour. */
+.link {
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: normal;
+  white-space: nowrap;
+  color: var(--nav-link);
+  transition: color var(--transition-variant);
+}
+
+.link:hover,
+.link:focus-visible,
+.link[aria-current="page"] {
+  color: var(--nav-link-active);
+}
