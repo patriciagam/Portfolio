@@ -1,0 +1,45 @@
+.toggle {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--nav-link-active);
+  cursor: pointer;
+  opacity: 0.7;
+  transition:
+    opacity 0.2s,
+    background 0.2s;
+}
+
+.toggle:hover {
+  opacity: 1;
+  background: rgba(127, 127, 127, 0.12);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--color-lavender);
+  outline-offset: 2px;
+}
+
+.sun,
+.moon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Dark mode shows the sun (switch to light); light mode shows the moon. */
+.moon {
+  display: none;
+}
+
+:global(:root[data-mode="light"]) .sun {
+  display: none;
+}
+
+:global(:root[data-mode="light"]) .moon {
+  display: block;
+}
