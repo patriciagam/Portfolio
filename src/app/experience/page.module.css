@@ -1,0 +1,117 @@
+/* Scroll distance for the timeline fill: 150svh of scrolling in total.
+   The footer adds its own height after the track, so it's subtracted here. */
+.scrollTrack {
+  height: calc(250svh - var(--footer-height));
+}
+
+/* The content is fixed to the viewport, so it never moves; scrolling only
+   drives the animations, and the footer (z-index 1) slides up in front of
+   it at the end. Full viewport height so the glows aren't clipped. */
+.pinned {
+  --footer-height: 0px;
+
+  position: fixed;
+  inset: 0 0 auto;
+}
+
+.timeline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  width: 1341px;
+  margin: clamp(32px, 9.8svh, 100.5px) 0 0 -6px;
+}
+
+.positions {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.position {
+  display: flex;
+  align-items: center;
+}
+
+.positionSecond {
+  width: 619px;
+}
+
+.positionLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 384px;
+}
+
+.positionLeftSecond {
+  width: 390px;
+}
+
+.jobTitle {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.company,
+.date,
+.descriptions {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--color-text-muted);
+}
+
+/* Matches the 32px box the company text has in Figma. */
+.companyFirst {
+  min-height: 32px;
+}
+
+.date {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.dateSecond {
+  width: 229px;
+}
+
+.line {
+  position: relative;
+  flex-shrink: 0;
+  width: 0;
+  height: 447px;
+}
+
+/* The ball's centre sits on the line, so the SVG overhangs the zero-width
+   layout box by one radius on the left and below. */
+.lineSvg {
+  position: absolute;
+  top: 0;
+  left: -5.33333px;
+  overflow: visible;
+}
+
+.lineTrack {
+  opacity: 0.2;
+}
+
+.descriptions {
+  display: flex;
+  flex-direction: column;
+  gap: 75px;
+  width: 498px;
+  height: 220px;
+}
+
+.descriptionFirst {
+  display: flex;
+  align-items: center;
+  height: 90px;
+}
+
+.descriptionSecond {
+  height: 50px;
+}
