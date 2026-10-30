@@ -1,0 +1,122 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  text-align: center;
+}
+
+.heading {
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.subheading {
+  font-size: 24px;
+  line-height: normal;
+  /* #6F00FF, the accent colour. */
+  color: var(--color-accent);
+}
+
+/* Full-bleed strip. The edge-fade mask hides everything outside this box,
+   so the vertical padding must fit the hovered card's lift and glow (about
+   40px below). The negative margin keeps the page layout as before. */
+.marquee {
+  width: 100vw;
+  padding: 56px 0;
+  margin: -36px 0;
+  overflow-x: clip;
+  /* Edge fade from index-patricia.html. */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* Each card carries its own trailing gap (instead of flex `gap`) so the
+   track is exactly two identical halves and -50% loops seamlessly.
+   Speed and hover effect are not from Figma. */
+.track {
+  display: flex;
+  width: max-content;
+  list-style: none;
+  animation: marquee 40s linear infinite;
+}
+
+.track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.skill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-shrink: 0;
+  width: 140px;
+  height: 65px;
+  margin-right: 15px;
+  padding: 8px 10px;
+  border: 1.5px solid var(--color-chip-border);
+  border-radius: 10px;
+  background: var(--color-chip);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: normal;
+  white-space: nowrap;
+  transition:
+    transform 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.skill svg {
+  flex-shrink: 0;
+}
+
+/* Icons are one colour (the text colour) until hovered, then show their
+   brand colours. Letters drawn on top of a shape take the chip's background
+   so they stay readable. */
+.skill svg * {
+  transition: fill 200ms ease;
+}
+
+.skill:not(:hover) svg * {
+  fill: currentColor;
+}
+
+.skill:not(:hover) svg [data-knockout] {
+  fill: var(--color-chip);
+}
+
+.skill:hover {
+  transform: translateY(-6px) scale(1.06);
+  border-color: var(--color-accent);
+  box-shadow: 0 10px 30px rgba(111, 0, 255, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    row-gap: 15px;
+    animation: none;
+  }
+
+  .clone {
+    display: none;
+  }
+}
