@@ -46,7 +46,17 @@
   display: flex;
   width: max-content;
   list-style: none;
-  animation: marquee 40s linear infinite;
+  animation: marquee var(--duration, 40s) linear infinite;
+}
+
+/* The second phone row runs the other way. */
+.reverse {
+  animation-direction: reverse;
+}
+
+/* Desktop shows the single row; phones show the two rows instead. */
+.twoRows {
+  display: none;
 }
 
 .track:hover {
@@ -105,6 +115,28 @@
   transform: translateY(-6px) scale(1.06);
   border-color: var(--color-accent);
   box-shadow: 0 10px 30px rgba(111, 0, 255, 0.45);
+}
+
+@media (max-width: 900px) {
+  .oneRow {
+    display: none;
+  }
+
+  .twoRows {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .heading {
+    padding: 0 16px;
+    font-size: clamp(36px, 10vw, 56px);
+  }
+
+  .subheading {
+    padding: 0 16px;
+    font-size: 18px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
