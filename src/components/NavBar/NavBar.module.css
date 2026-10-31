@@ -28,7 +28,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 62px;
+  /* Narrows on mid-size screens so the links still fit on one line. */
+  gap: clamp(32px, 4.3vw, 62px);
   max-width: var(--frame-width);
   height: 100%;
   margin: 0 auto;
@@ -38,7 +39,7 @@
 .list {
   display: flex;
   align-items: center;
-  gap: 70px;
+  gap: clamp(32px, 4.9vw, 70px);
   list-style: none;
 }
 
@@ -57,4 +58,121 @@
 .link:focus-visible,
 .link[aria-current="page"] {
   color: var(--nav-link-active);
+}
+
+/* The menu button and backdrop only exist on small screens. */
+.menuButton,
+.backdrop {
+  display: none;
+}
+
+/* Desktop: the menu wrapper doesn't affect layout. */
+.menu {
+  display: contents;
+}
+
+.menuButton {
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  margin-right: -6px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--nav-link-active);
+  cursor: pointer;
+}
+
+.menuButton:focus-visible {
+  outline: 2px solid var(--color-lavender);
+  outline-offset: 2px;
+}
+
+.menuIcon {
+  width: 26px;
+  height: 26px;
+}
+
+/* Small screens: the links fold into a panel that slides down from under
+   the bar when opened and back up when closed. */
+@media (max-width: 900px) {
+  .inner {
+    gap: 4px;
+    padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0
+      max(16px, env(safe-area-inset-left, 0px));
+  }
+
+  .menuButton {
+    display: grid;
+  }
+
+  /* Clips the panel at the bar's bottom edge, so it appears from under the
+     bar rather than sliding over it. Above the backdrop. */
+  .menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: block;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 8px 0 16px;
+    border-bottom: 1px solid var(--nav-border);
+    background: var(--nav-bg);
+    pointer-events: auto;
+    transform: translateY(-100%);
+    /* Closing: slide up, then hide once it's out of sight. */
+    visibility: hidden;
+    transition:
+      transform 280ms cubic-bezier(0.4, 0, 1, 1),
+      visibility 0s linear 280ms;
+  }
+
+  .navBar[data-menu-open] .list {
+    transform: translateY(0);
+    visibility: visible;
+    /* Opening: show at once, then slide down and settle. */
+    transition:
+      transform 340ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      visibility 0s;
+  }
+
+  .link {
+    padding: 14px 24px;
+    font-size: 20px;
+  }
+
+  .link[aria-current="page"] {
+    color: var(--color-lavender);
+  }
+
+  /* Dims the page under the open menu; starts below the bar so the bar
+     itself isn't dimmed. */
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: var(--nav-height) 0 0;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 280ms ease,
+      visibility 0s linear 280ms;
+  }
+
+  .navBar[data-menu-open] .backdrop {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 340ms ease,
+      visibility 0s;
+  }
 }

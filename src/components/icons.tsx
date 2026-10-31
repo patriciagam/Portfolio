@@ -90,3 +90,24 @@ export function ChevronIcon({ className, direction }: IconProps & { direction: "
     </svg>
   );
 }
+
+/** Three-line menu icon that turns into a cross when `open`. */
+export function MenuIcon({ className, open }: IconProps & { open: boolean }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      aria-hidden="true"
+    >
+      {open ? (
+        <path d="M6 6 L18 18 M18 6 L6 18" />
+      ) : (
+        <path d="M4 7 H20 M4 12 H20 M4 17 H20" />
+      )}
+    </svg>
+  );
+}
