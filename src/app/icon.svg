@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#B9A2FF"/><stop offset="1" stop-color="#F6BEE3"/></linearGradient></defs><circle cx="100" cy="100" r="98" fill="url(#g)"/><path d="M46 148 C42 120 44 94 52 76 C50 62 50 48 53 36 C54 31 59 30 62 33 L82 55 C94 52 106 52 118 55 L138 33 C141 30 146 31 147 36 C150 48 150 62 148 76 C156 94 158 120 154 148 C152 160 143 167 131 167 L69 167 C57 167 48 160 46 148 Z" fill="#1C1630"/>
+  <path d="M58 44 L60 62 L71 55 Z M142 44 L140 62 L129 55 Z" fill="#E7B8E8" opacity=".9"/>
+  <g fill="none" stroke="#1C1630" stroke-width="4" stroke-linecap="round"><path d="M46 104 L32 101"/><path d="M46 111 L33 113"/><path d="M154 104 L168 101"/><path d="M154 111 L167 113"/></g><circle cx="80" cy="94" r="14" fill="#E9DDFF"/><circle cx="120" cy="94" r="14" fill="#E9DDFF"/>
+  <circle cx="81" cy="92" r="7.5" fill="#1C1630"/><circle cx="121" cy="92" r="7.5" fill="#1C1630"/>
+  <circle cx="83.5" cy="89" r="2.6" fill="#FFFFFF"/><circle cx="123.5" cy="89" r="2.6" fill="#FFFFFF"/>
+  <path d="M96.5 108 L103.5 108 L100 112 Z" fill="#F2A7D8"/>
+  <path d="M100 112 Q97 117 93 115 M100 112 Q103 117 107 115" fill="none" stroke="#E9DDFF" stroke-width="2.6" stroke-linecap="round"/></svg>
