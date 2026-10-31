@@ -23,9 +23,9 @@ export default function SocialLinks({ direction = "column", className }: SocialL
         </a>
       </li>
       <li>
-        <Link href="/contact" aria-label="Email">
+        <a href="mailto:patricia.a.gameiro@gmail.com" aria-label="Email">
           <EmailIcon className={styles.icon} />
-        </Link>
+        </a>
       </li>
     </ul>
   );

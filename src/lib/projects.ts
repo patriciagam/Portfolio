@@ -1,4 +1,3 @@
-import { cacheLife } from "next/cache";
 import { PROFILES } from "@/lib/profiles";
 
 export type Project = {
@@ -40,17 +39,13 @@ export async function getProjects(): Promise<Project[]> {
 
 /** Public, non-fork repos, most recently pushed first. Refreshed hourly. */
 async function getGitHubProjects(username: string): Promise<Project[] | null> {
-  "use cache";
-  cacheLife("hours");
-
-  const headers: HeadersInit = { Accept: "application/vnd.github+json" };
-  // Optional: raises GitHub's limit from 60 to 5000 requests an hour.
+  const headers: HeadersInit = { Accept: "application/vnd.github+json", "User-Agent": "Portfolio" };
   if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
 
   try {
     const res = await fetch(
       `https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=pushed&per_page=100`,
-      { headers },
+      { headers, cache: "force-cache", next: { revalidate: 3600 } },
     );
     if (!res.ok) return null;
     const repos: GitHubRepo[] = await res.json();
