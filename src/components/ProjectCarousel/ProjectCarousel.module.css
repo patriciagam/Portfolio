@@ -1,0 +1,209 @@
+/* Card styles from index-patricia.html; the row layout and looping are new. */
+.carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Full-bleed horizontal scroller. Vertical padding leaves room for the
+   hover lift and the cards' shadows. */
+.scroller {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  padding-block: 24px 40px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.scroller[data-dragging] {
+  cursor: grabbing;
+}
+
+.scroller:focus-visible {
+  outline: 2px solid var(--color-periwinkle);
+  outline-offset: -2px;
+}
+
+/* Each card carries its own trailing gap (instead of flex `gap`) so the three
+   copies are exactly equal widths and the loop jump is seamless. */
+.track {
+  display: flex;
+  align-items: stretch;
+  width: max-content;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 420px;
+  /* Portrait proportions (about 5:6 on screen), whatever the text length. */
+  height: 500px;
+  /* The trailing gap; zoomed with the card, so ~48px on screen. */
+  margin-right: 60px;
+  padding: 16px;
+  border-radius: 20px;
+  color: #ffffff;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+  /* Cards are drawn at 80% of the source design's size (so 336px wide).
+     Pages can shrink them further by setting --card-zoom. */
+  zoom: calc(var(--card-zoom, 1) * 0.8);
+  /* --tilt is set per card for the slightly crooked look. */
+  transform: rotate(var(--tilt, 0deg));
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s;
+}
+
+/* Hovered cards straighten up and lift. */
+.card:hover {
+  transform: translateY(-6px) rotate(0deg) scale(1.02);
+}
+
+.c1 {
+  background: linear-gradient(160deg, #8b5cf6 0%, #6d3fd8 50%, #3b1a86 100%);
+}
+
+.c2 {
+  background: linear-gradient(160deg, #d946ef 0%, #9b33d6 50%, #4c1d95 100%);
+}
+
+.c3 {
+  background: linear-gradient(160deg, #6366f1 0%, #4a44c9 50%, #251e6e 100%);
+}
+
+.c4 {
+  background: linear-gradient(160deg, #ec4899 0%, #a62fb8 50%, #5b1a8f 100%);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 16px;
+  padding: 12px 12px 6px;
+}
+
+.title {
+  font-size: clamp(26px, 2.6vw, 32px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+}
+
+.tags li {
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(10, 36, 64, 0.35);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* At most 6 lines (the Figma card component used 4; the taller cards fit
+   6), so long GitHub descriptions can't overflow the fixed card height. */
+.summary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  line-clamp: 6;
+  overflow: hidden;
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Pinned to the bottom so the year and link line up across cards. */
+.foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.foot span {
+  font-size: 18px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.foot a {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #2a1460;
+  transition: transform 0.2s;
+}
+
+.foot a:hover {
+  transform: rotate(-12deg) scale(1.06);
+}
+
+.foot svg {
+  width: 18px;
+  height: 18px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 8px;
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--color-chip-border);
+  border-radius: 50%;
+  background: var(--color-chip);
+  color: var(--color-text);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+
+.arrow:hover {
+  border-color: var(--color-violet);
+  transform: scale(1.06);
+}
+
+.arrow svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .card:hover {
+    transform: rotate(var(--tilt, 0deg));
+  }
+}

@@ -1,0 +1,29 @@
+.layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Centres the carousel in the space under the heading, with guaranteed
+   room above (below the heading) and below (above the footer). Cards are
+   scaled down on shorter screens; if a screen is shorter still, the page
+   scrolls rather than letting things overlap. */
+.carousel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px 0 40px;
+}
+
+@media (max-height: 940px) {
+  .carousel {
+    --card-zoom: 0.85;
+  }
+}
+
+@media (max-height: 800px) {
+  .carousel {
+    --card-zoom: 0.72;
+  }
+}
