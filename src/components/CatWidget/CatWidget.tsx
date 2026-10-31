@@ -37,6 +37,9 @@ const MAXLEN = 1.3; // how far the leg can stretch
 const RANGE = 165;
 const NEAR = 175;
 const FAR = 215;
+const PET_MS = 1400; // how long one touch keeps the cat purring
+const NUZZLE_MS = 260; // one lean of the head while being petted
+const HEART_EVERY_MS = 220; // at most one heart this often while stroking
 
 const clone = (p: Pose): Pose => JSON.parse(JSON.stringify(p));
 const round1 = (n: number) => Math.round(n * 10) / 10;
@@ -101,7 +104,7 @@ export default function CatWidget() {
     const cur = clone(SIT);
     let tilt = 0;
     let tiltGoal = 0;
-    let state: "idle" | "swiping" = "idle";
+    let state: "idle" | "swiping" | "petting" = "idle";
     let last = 0;
     let gen = 0;
     let agitation = 0;
@@ -298,13 +301,19 @@ export default function CatWidget() {
       cat!.classList.add(styles.alert);
       // The arm only shows while swatting; at rest it's hidden.
       showArm();
+      // Petting can interrupt a swat; it then takes over the pose and the arm.
+      const interrupted = () => state !== "swiping";
       tween({ ...clone(SIT), hr: -6 }, 200);
       await strike();
+      if (interrupted()) return;
       if (inReach(px, py) && Math.random() < 0.7) {
         await wait(40);
+        if (interrupted()) return;
         await strike();
+        if (interrupted()) return;
       }
       await wait(120);
+      if (interrupted()) return;
       tween(SIT, 300);
       // Fade the arm out once it's halfway down instead of letting it hang
       // there. (By angle, not time: the swing covers most of the way early.)
@@ -316,7 +325,75 @@ export default function CatWidget() {
           hideArm();
         }
       });
+      if (interrupted()) return;
       if (!hidden) hideArm();
+      last = Date.now();
+      state = "idle";
+    }
+
+    // ---- petting: touch (or click) the cat itself ----
+    // Eyes close happily, the head leans into the hand from side to side, the
+    // body purrs and little hearts float up. Each touch or stroke extends it.
+    const hearts = new Set<HTMLElement>();
+    let petUntil = 0;
+    let lastHeart = 0;
+    function onCat(x: number, y: number) {
+      const pad = 6;
+      return [el.body, el.head].some((part) => {
+        const r = part.getBoundingClientRect();
+        return x >= r.left - pad && x <= r.right + pad && y >= r.top - pad && y <= r.bottom + pad;
+      });
+    }
+    function heart(x: number, y: number) {
+      const now = performance.now();
+      if (reduce || now - lastHeart < HEART_EVERY_MS) return;
+      lastHeart = now;
+      const h = document.createElement("div");
+      h.className = styles.heart;
+      h.innerHTML =
+        '<svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.1 5.3 3 1.7-1.9 3.2-3 5.3-3 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>';
+      h.style.left = x + "px";
+      h.style.top = y + "px";
+      document.body.appendChild(h);
+      hearts.add(h);
+      const drift = (Math.random() - 0.5) * 50;
+      h.animate(
+        [
+          { opacity: 0, transform: "translate(0, 0) scale(.4)" },
+          { opacity: 1, transform: `translate(${drift * 0.3}px, -24px) scale(1)`, offset: 0.25 },
+          { opacity: 0, transform: `translate(${drift}px, -90px) scale(.8)` },
+        ],
+        { duration: 1100, easing: "ease-out" },
+      ).onfinish = () => {
+        h.remove();
+        hearts.delete(h);
+      };
+    }
+    async function pet(x: number, y: number) {
+      petUntil = performance.now() + PET_MS;
+      heart(x, y - 20);
+      if (state === "petting") return; // already purring; the loop below runs longer
+      if (state === "swiping") {
+        // Stop the swat and put the arm away.
+        arm.rot = REST;
+        arm.len = 1;
+        drawArm();
+        hideArm();
+      }
+      state = "petting";
+      gen++;
+      setYarn(false);
+      tiltGoal = 0;
+      agitationGoal = 0;
+      cat!.classList.remove(styles.alert);
+      cat!.classList.add(styles.happy, styles.purr);
+      let side = 1;
+      while (!disposed && performance.now() < petUntil) {
+        await tween({ ...clone(SIT), hr: 9 * side, hy: SIT.hy + 4 }, reduce ? 1 : NUZZLE_MS);
+        side = -side;
+      }
+      await tween(SIT, 300);
+      cat!.classList.remove(styles.happy, styles.purr);
       last = Date.now();
       state = "idle";
     }
@@ -362,7 +439,10 @@ export default function CatWidget() {
     };
     yarnLoop();
 
-    const onWindowPointerLeave = () => setYarn(false);
+    const onWindowPointerLeave = () => {
+      setYarn(false);
+      root.classList.remove("pet-cat");
+    };
     const onDocumentMouseLeave = () => setYarn(false);
     const onDocumentPointerLeave = () => {
       agitationGoal = 0;
@@ -371,20 +451,35 @@ export default function CatWidget() {
     const onPointerMove = (e: PointerEvent) => {
       px = e.clientX;
       py = e.clientY;
+      const overCat = onCat(px, py);
+      // Mouse over the cat itself: a hand cursor (not the yarn) and no
+      // swatting, so it's clear a click will pet it.
+      const mouse = e.pointerType === "mouse";
+      root.classList.toggle("pet-cat", mouse && overCat);
+      // Stroking: a pressed finger or mouse moving over the cat keeps petting it.
+      if (e.buttons && overCat) {
+        pet(px, py);
+        return;
+      }
+      if (state === "petting") return;
       look(px, py);
       const d = distance();
       agitationGoal = Math.max(0, Math.min(1, 1 - (d - RANGE) / 300));
       if (state === "idle") cat.classList.toggle(styles.alert, d < RANGE + 120);
-      if (e.pointerType === "mouse") setYarn(yarnOn ? d < FAR : d < NEAR);
-      if (e.pointerType === "mouse" && inReach(px, py) && Date.now() - last > 500) swipe();
+      if (mouse) setYarn(!overCat && (yarnOn ? d < FAR : d < NEAR));
+      if (mouse && !overCat && inReach(px, py) && Date.now() - last > 500) swipe();
     };
 
     // Touch: tap near the cat and it swats at your finger.
     let yarnTimer: ReturnType<typeof setTimeout> | undefined;
     const onPointerDown = (e: PointerEvent) => {
-      if (e.pointerType === "mouse") return;
       px = e.clientX;
       py = e.clientY;
+      if (onCat(px, py)) {
+        pet(px, py);
+        return;
+      }
+      if (e.pointerType === "mouse") return;
       look(px, py);
       if (distance() < NEAR) {
         setYarn(true);
@@ -435,7 +530,8 @@ export default function CatWidget() {
       document.removeEventListener("pointerleave", onDocumentPointerLeave);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerdown", onPointerDown);
-      root.classList.remove("yarn");
+      root.classList.remove("yarn", "pet-cat");
+      hearts.forEach((h) => h.remove());
     };
   }, []);
 

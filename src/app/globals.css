@@ -126,6 +126,12 @@ html.yarn * {
   cursor: none !important;
 }
 
+/* Set by the landing-page cat while the mouse is over it (click to pet). */
+html.pet-cat,
+html.pet-cat * {
+  cursor: pointer !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
