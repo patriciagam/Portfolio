@@ -20,3 +20,16 @@
   font-size: 14px;
   color: var(--nav-link);
 }
+
+/* Phones: icons above the copyright, centred, so the landing page's cat
+   (fixed bottom-right) doesn't cover the text. Still fits the fixed height. */
+@media (max-width: 560px) {
+  .footer {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .copyright {
+    font-size: 13px;
+  }
+}

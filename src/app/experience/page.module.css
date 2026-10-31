@@ -115,3 +115,103 @@
 .descriptionSecond {
   height: 50px;
 }
+
+/* Narrower screens: one column. The line runs down the left, and each role
+   is followed by its description. `display: contents` lifts the four
+   ScrollReveal blocks out of their columns so the grid can interleave them;
+   the scroll-driven fill and reveal work as before. */
+@media (max-width: 1279px) {
+  .timeline {
+    display: grid;
+    grid-template-columns: 11px minmax(0, 1fr);
+    grid-template-rows: repeat(4, auto);
+    align-items: start;
+    gap: 0 24px;
+    width: min(640px, 100% - 40px);
+    margin: clamp(16px, 4svh, 56px) auto 0;
+  }
+
+  .positions,
+  .descriptions {
+    display: contents;
+  }
+
+  .line {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    justify-self: center;
+    /* Shorter on small phones so it doesn't run past the content. */
+    height: min(447px, 100svh - 260px);
+  }
+
+  .lineSvg {
+    height: 100%;
+  }
+
+  .position,
+  .positionSecond,
+  .descriptionFirst,
+  .descriptionSecond {
+    grid-column: 2;
+  }
+
+  .position {
+    grid-row: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: auto;
+  }
+
+  .descriptionFirst {
+    grid-row: 2;
+  }
+
+  .positionSecond {
+    grid-row: 3;
+    margin-top: clamp(24px, 4svh, 40px);
+  }
+
+  .descriptionSecond {
+    grid-row: 4;
+  }
+
+  .descriptionFirst,
+  .descriptionSecond {
+    display: block;
+    height: auto;
+    margin-top: 12px;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--color-text-muted);
+  }
+
+  .positionLeft,
+  .positionLeftSecond {
+    gap: 8px;
+    width: auto;
+  }
+
+  .jobTitle {
+    font-size: clamp(19px, 5vw, 24px);
+    line-height: 1.2;
+  }
+
+  .company,
+  .date {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  .companyFirst {
+    min-height: 0;
+  }
+
+  .date,
+  .dateSecond {
+    width: auto;
+    text-align: left;
+    color: var(--color-text-faint);
+  }
+}

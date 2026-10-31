@@ -27,3 +27,18 @@
     --card-zoom: 0.72;
   }
 }
+
+/* Phones: smaller cards so one fills most of the width with the next one
+   peeking in. Placed last so it wins over the height-based zoom. */
+@media (max-width: 900px) {
+  .carousel {
+    --card-zoom: 0.85;
+    padding: 16px 0 32px;
+  }
+}
+
+@media (max-width: 420px) {
+  .carousel {
+    --card-zoom: 0.78;
+  }
+}

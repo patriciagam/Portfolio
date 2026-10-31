@@ -16,6 +16,7 @@
 
 .name {
   width: 732px;
+  max-width: 100%;
   font-size: 64px;
   font-weight: 800;
   line-height: 1;
@@ -43,6 +44,7 @@
 
 .role {
   width: 711px;
+  max-width: 100%;
   margin: 30px 0 0 10px;
   font-size: 24px;
   line-height: normal;
@@ -74,4 +76,43 @@
   left: max(14px, env(safe-area-inset-left, 0px));
   bottom: 18px;
   z-index: 5;
+}
+
+/* Small screens: text runs the full width with a phone-sized gutter, and
+   the hero leaves room at the bottom for the social icons (left) and the
+   cat (right), which are fixed to the screen's bottom corners. */
+@media (max-width: 900px) {
+  .hero {
+    padding: var(--nav-height) 24px 112px;
+  }
+
+  .name {
+    font-size: clamp(40px, 11vw, 64px);
+  }
+
+  .role {
+    margin: 24px 0 0;
+    font-size: clamp(17px, 4.6vw, 22px);
+  }
+
+  .downloadCv {
+    width: auto;
+    height: 52px;
+    margin: 32px 0 0;
+    padding: 0 20px 0 18px;
+    font-size: 18px;
+  }
+
+  .skills {
+    padding: 48px 0 200px;
+  }
+
+  /* A row along the bottom instead of a column up the side. */
+  .social > ul {
+    flex-direction: row;
+  }
+
+  .social {
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  }
 }

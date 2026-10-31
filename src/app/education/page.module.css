@@ -6,7 +6,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 64px;
-  width: 1040px;
+  width: min(1040px, 100% - 48px);
   margin: 0 auto;
   padding: calc(var(--nav-height) + 56px) 0 64px;
 }
@@ -129,4 +129,51 @@
 
 .roles {
   margin-top: 18px;
+}
+
+@media (max-width: 900px) {
+  .page {
+    width: min(1040px, 100% - 72px);
+    gap: 48px;
+    padding: calc(var(--nav-height) + 40px) 0 56px;
+  }
+
+  .sectionHeading {
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .sectionTitle {
+    font-size: clamp(26px, 7.5vw, 36px);
+  }
+
+  .groups {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .item {
+    padding-left: 24px;
+  }
+
+  .title {
+    font-size: 15.5px;
+  }
+
+  .org {
+    font-size: 18px;
+  }
+
+  .meta {
+    font-size: 13.5px;
+  }
+
+  .skills {
+    font-size: 12.5px;
+  }
+
+  .badge {
+    margin-left: 8px;
+    font-size: 10px;
+  }
 }

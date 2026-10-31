@@ -5,7 +5,7 @@
   /* The text sits level with the middle of the form. */
   align-items: center;
   gap: 96px;
-  width: 1280px;
+  width: min(1280px, 100% - 48px);
   margin: clamp(48px, 8svh, 80px) auto clamp(48px, 8svh, 80px);
   padding-left: 52px;
 }
@@ -186,4 +186,72 @@
 .copy:hover,
 .copy:focus-visible {
   border-color: var(--color-violet);
+}
+
+/* Narrower screens: the text sits above the email and form. */
+@media (max-width: 900px) {
+  .contact {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+    margin: 32px auto 56px;
+    padding-left: 0;
+  }
+
+  .lead {
+    max-width: none;
+    font-size: clamp(18px, 4.8vw, 22px);
+  }
+
+  .location {
+    margin-top: 24px;
+    font-size: 16px;
+  }
+
+  /* The email centred, with the copy button centred right below it. */
+  .emailRow {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .form {
+    max-width: 520px;
+    margin-inline: auto;
+  }
+
+  .email {
+    font-size: clamp(18px, 5vw, 24px);
+  }
+}
+
+@media (max-width: 560px) {
+  .form {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  /* The local time goes on its own line, lined up with the text above. */
+  .separator {
+    display: none;
+  }
+
+  .location > span:last-child {
+    flex-basis: 100%;
+    padding-left: 24px;
+  }
+
+  .formFooter {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .submit {
+    width: 100%;
+    padding: 14px 32px;
+  }
+
+  .formNote:empty {
+    display: none;
+  }
 }

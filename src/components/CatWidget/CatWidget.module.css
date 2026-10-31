@@ -13,6 +13,13 @@
   will-change: transform;
 }
 
+/* Smaller on phones so it doesn't cover the hero text. */
+@media (max-width: 900px) {
+  .kitty {
+    --w: 84px;
+  }
+}
+
 .kitty svg {
   position: absolute;
   width: calc(var(--w) * 440 / 208);

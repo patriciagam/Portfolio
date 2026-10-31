@@ -22,3 +22,11 @@
   -webkit-background-clip: text;
   filter: var(--glow-purple);
 }
+
+@media (max-width: 900px) {
+  .heading {
+    max-width: calc(100% - 32px);
+    padding-top: calc(var(--nav-height) + 40px);
+    font-size: clamp(36px, 10vw, 56px);
+  }
+}

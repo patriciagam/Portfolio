@@ -45,6 +45,13 @@
   color-scheme: dark;
 }
 
+/* Small screens: a shorter nav bar. */
+@media (max-width: 900px) {
+  :root {
+    --nav-height: 64px;
+  }
+}
+
 :root[data-mode="light"] {
   --color-bg: #f7f4ff;
   --color-bg-deep: #efe9ff;
