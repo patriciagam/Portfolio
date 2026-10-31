@@ -1,0 +1,189 @@
+/* Layout from index-patricia.html: lead text beside the email and form. */
+.contact {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  /* The text sits level with the middle of the form. */
+  align-items: center;
+  gap: 96px;
+  width: 1280px;
+  margin: clamp(48px, 8svh, 80px) auto clamp(48px, 8svh, 80px);
+  padding-left: 52px;
+}
+
+.lead {
+  max-width: 30ch;
+  font-size: 24px;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.location {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin-top: 40px;
+  font-size: 18px;
+  color: var(--color-text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.location strong {
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--color-violet);
+  box-shadow: 0 0 8px var(--color-violet);
+}
+
+.separator {
+  opacity: 0.6;
+}
+
+/* Right column: the email written out, then the form. Colours are kept
+   quiet so the heading stays the one thing in purple; violet only appears
+   on focus and hover. */
+.emailRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 14px;
+}
+
+.email {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  overflow-wrap: anywhere;
+  color: var(--color-text);
+  transition: color 0.2s;
+}
+
+.email:hover,
+.email:focus-visible {
+  color: var(--color-lavender);
+}
+
+/* Underlined fields, as in the reference design. */
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px 28px;
+  margin-top: 40px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fieldWide {
+  grid-column: 1 / -1;
+}
+
+.fieldLabel {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-faint);
+}
+
+.input {
+  width: 100%;
+  padding: 6px 0 10px;
+  border: 0;
+  border-bottom: 1px solid var(--color-line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-text);
+  font: 400 17px var(--font-inter), system-ui, sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input:focus-visible {
+  border-bottom-color: var(--color-violet);
+}
+
+.textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.formFooter {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.formNote {
+  flex: 1;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.formError {
+  color: #f87171;
+}
+
+/* Kept in the form for bots, but invisible and unreachable for people. */
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.submit {
+  padding: 12px 32px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-text-muted);
+  font: 700 16px var(--font-inter), system-ui, sans-serif;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.submit:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.submit:not(:disabled):hover,
+.submit:focus-visible {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: #ffffff;
+}
+
+.copy {
+  padding: 8px 12px;
+  border: 1px solid var(--color-chip-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-text);
+  font: 600 13px var(--font-inter), system-ui, sans-serif;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.copy:hover,
+.copy:focus-visible {
+  border-color: var(--color-violet);
+}
