@@ -1,0 +1,132 @@
+/* Two sections stacked: Education, then Extracurriculars. There's no page
+   heading; the section titles take that role. */
+.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 64px;
+  width: 1040px;
+  margin: 0 auto;
+  padding: calc(var(--nav-height) + 56px) 0 64px;
+}
+
+/* Section title in the site's purple heading style, with a faint rule
+   running to the right. */
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.sectionHeading::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-line);
+}
+
+.sectionTitle {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background: var(--gradient-purple);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: var(--glow-purple);
+}
+
+/* A small dotted timeline: a dot per item, joined by a thin line. */
+.timeline {
+  display: grid;
+  gap: 24px;
+  list-style: none;
+}
+
+.item {
+  position: relative;
+  padding-left: 28px;
+}
+
+.item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-text-faint);
+}
+
+/* The connecting line runs from this dot down to the next one. */
+.item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 23px;
+  bottom: -18px;
+  width: 1px;
+  background: var(--color-line);
+}
+
+/* The current degree's dot is the one touch of accent colour. */
+.item:has(.badge)::before {
+  background: var(--color-violet);
+  box-shadow: 0 0 8px var(--color-violet);
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.meta {
+  margin-top: 4px;
+  font-size: 15px;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.skills {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--color-text-faint);
+}
+
+.badge {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 2px 10px;
+  border-radius: 99px;
+  background: rgba(110, 0, 255, 0.22);
+  color: var(--color-lavender);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: 2px;
+}
+
+/* Extracurriculars: one block per organisation (side by side), its roles
+   in a timeline. */
+.groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px 96px;
+}
+
+.org {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.roles {
+  margin-top: 18px;
+}
