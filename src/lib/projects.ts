@@ -18,6 +18,9 @@ const PLACEHOLDER: Project = {
 };
 const PLACEHOLDER_COUNT = 8;
 const MAX_PROJECTS = 12;
+// Language plus GitHub topics. Six fit on a card (in up to three rows) with
+// room left for the summary.
+const MAX_TAGS = 6;
 
 type GitHubRepo = {
   name: string;
@@ -55,7 +58,7 @@ async function getGitHubProjects(username: string): Promise<Project[] | null> {
       .slice(0, MAX_PROJECTS)
       .map((repo) => ({
         title: repo.name,
-        tags: [repo.language, ...(repo.topics ?? [])].filter((tag): tag is string => !!tag).slice(0, 3),
+        tags: projectTags(repo),
         summary: repo.description ?? "",
         year: String(new Date(repo.created_at).getFullYear()),
         href: repo.homepage || repo.html_url,
@@ -63,4 +66,12 @@ async function getGitHubProjects(username: string): Promise<Project[] | null> {
   } catch {
     return null;
   }
+}
+
+/** The repo's language, then its topics, skipping a topic that just repeats
+    the language (e.g. a "python" topic on a Python repo). */
+function projectTags(repo: GitHubRepo): string[] {
+  const language = repo.language?.toLowerCase();
+  const topics = (repo.topics ?? []).filter((topic) => topic.toLowerCase() !== language);
+  return [repo.language, ...topics].filter((tag): tag is string => !!tag).slice(0, MAX_TAGS);
 }
