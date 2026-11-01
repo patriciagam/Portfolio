@@ -50,7 +50,7 @@ async function getGitHubProjects(username: string): Promise<Project[] | null> {
       `https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=pushed&per_page=100`,
       { headers, cache: "force-cache", next: { revalidate: 3600 } },
     );
-    if (!res.ok) return null;
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}: ${await res.text()}`);
     const repos: GitHubRepo[] = await res.json();
 
     return repos
@@ -63,7 +63,9 @@ async function getGitHubProjects(username: string): Promise<Project[] | null> {
         year: String(new Date(repo.created_at).getFullYear()),
         href: repo.homepage || repo.html_url,
       }));
-  } catch {
+  } catch (error) {
+    console.error("Error fetching GitHub projects:", error);
+    if (process.env.NEXT_PHASE !== "phase-production-build") throw error;
     return null;
   }
 }
