@@ -61,7 +61,7 @@ async function getGitHubProjects(username: string): Promise<Project[] | null> {
         tags: projectTags(repo),
         summary: repo.description ?? "",
         year: String(new Date(repo.created_at).getFullYear()),
-        href: repo.homepage || repo.html_url,
+        href: repo.html_url,
       }));
   } catch (error) {
     console.error("Error fetching GitHub projects:", error);
